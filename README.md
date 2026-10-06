@@ -52,16 +52,20 @@ Open [http://localhost:5173](http://localhost:5173). API docs are at [http://loc
 
 ### Render
 
-The API and PostgreSQL can be created from `render.yaml`, or by hand:
+Deploy the API and the website as two services. `render.yaml` describes both, plus PostgreSQL.
 
-1. Create a PostgreSQL database on Render.
-2. Create a Web Service from this repo. Set the root directory to `backend`.
-3. Build command: `pip install -r requirements.txt`
-4. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-5. Set `DATABASE_URL` to the database connection string Render provides. A `postgres://` URL is accepted. Use the internal URL when the service and database are in the same region.
-6. Deploy. The first boot creates the tables and loads the 28 demo customers.
+**API** (Python web service). Leave Root Directory empty so it stays separate from the website service.
 
-Point the site at that API by setting `VITE_API_URL` in `frontend/.env` to the Render service URL, with no trailing slash, then rebuild the frontend.
+1. Build command: `pip install -r backend/requirements.txt`
+2. Start command: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+3. Attach Render PostgreSQL. Render sets `DATABASE_URL`. The first boot loads the 28 demo customers.
+
+**Website** (`frontend`)
+
+1. Static Site, root directory `frontend`.
+2. Build command: `npm install && npm run build`
+3. Publish directory: `dist`
+4. Set `VITE_API_URL` to the API URL, with no trailing slash, before the build. Add a rewrite from `/*` to `/index.html`.
 
 The first launch creates `backend/customer360.db` and seeds 28 customers. There is no login.
 
