@@ -205,6 +205,10 @@ def test_render_postgres_url(monkeypatch):
     external = database_url()
     assert external.startswith("postgresql+psycopg://")
     assert "sslmode=require" in external
+    monkeypatch.setenv("DATABASE_URL", "postgres://user:p@ss@dpg-abc-a/customer360")
+    quoted = database_url()
+    assert "p%40ss" in quoted
+    assert quoted.endswith("@dpg-abc-a/customer360")
 
 
 def test_search_filters_and_reread(client):
