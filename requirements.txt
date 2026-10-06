@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 -r backend/requirements.txt
+=======
+fastapi==0.142.2
+uvicorn==0.54.0
+sqlalchemy==2.1.3
+psycopg[binary]==3.2.10
+pydantic==2.13.5
+httpx==0.28.1
+pytest==9.1.1
+>>>>>>> 9a53ee185712f97632d67facaa70e0e056f221fe
